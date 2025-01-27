@@ -6,6 +6,12 @@ import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
 
+const initialState = {
+  questions: [],
+  status: "loading",
+  index: 0,
+};
+
 function reducer(state, action) {
   switch (action.type) {
     case "RecievedData":
@@ -24,11 +30,10 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const initialState = {
-    questions: [],
-    status: "loading",
-  };
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   const numQuestions = questions.length;
 
@@ -48,7 +53,7 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question />}
+        {status === "active" && <Question question={questions[index]} />}
       </Main>
     </div>
   );
