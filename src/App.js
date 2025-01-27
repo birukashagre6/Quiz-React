@@ -1,13 +1,15 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
 
 function reducer(state, action) {
   switch (action.type) {
     case "RecievedData":
       return {
         ...state,
-        questions: action.data,
+        questions: action.payload,
         status: "ready",
       };
     case "FailedData":
@@ -35,8 +37,8 @@ export default function App() {
     <div className="app">
       <Header />
       <Main>
-        <p>1/15</p>
-        <p>Question?</p>
+        {state.status === "loading" && <Loader />}
+        {state.status === "error" && <Error />}
       </Main>
     </div>
   );
